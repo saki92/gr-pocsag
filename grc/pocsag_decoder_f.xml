@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<block>
+  <name>decoder_f</name>
+  <key>pocsag_decoder_f</key>
+  <category>[pocsag]</category>
+  <import>import pocsag</import>
+  <make>pocsag.decoder_f($fs)</make>
+  <!-- Make one 'param' node for every Parameter you want settable from the GUI.
+       Sub-nodes:
+       * name
+       * key (makes the value accessible as $keyname, e.g. in the make node)
+       * type -->
+  <param>
+    <name>Sample Rate</name>
+    <key>fs</key>
+    <type>float</type>
+  </param>
+
+  <sink>
+    <name>in</name>
+    <type>float</type>
+  </sink>
+</block>
