@@ -35,19 +35,29 @@ namespace gr {
       uint d_tot_sampcount;
       float d_thresh;
       int8_t *arr_bits;
-      const uint16_t max_bps = 2400;
+      const uint max_bps = 2400;
       uint bit_check;
       uint d_estim_bps;
-      const uint bitbuff_size = 1200;
-      const uint numBitsPreamble = 576;
+      const uint bitbuff_size = 24000;
+      const uint numBitsPreamble = 400;
       float d_fs;
-      uint d_bit_count = 0;
+      uint d_idxBit = 0;
+      uint d_BPS = 0;
+      int d_startMsgSamp;
+      uint8_t d_currState = 0;
+      const uint numFSCBits = 32;
+      const uint8_t FSCBits[32] = {0,1,1,1,1,1,0,0,
+                                   1,1,0,1,0,0,1,0,
+                                   0,0,0,1,0,1,0,1,
+                                   1,1,0,1,1,0,0,0};
 
      public:
       decoder_f_impl(float fs);
       ~decoder_f_impl();
       int8_t sgn(float val);
       bool checkPreamble(int8_t* p);
+      uint getBPS(int estimBPS);
+      bool checkFSC(int8_t* p);
 
       // Where all the action really happens
       int work(int noutput_items,
