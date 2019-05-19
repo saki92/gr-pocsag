@@ -39,12 +39,12 @@ namespace gr {
       uint bit_check;
       uint d_estim_bps;
       const uint bitbuff_size = 24000;
-      const uint numBitsPreamble = 400;
+      const uint numBitsPreamble = 500;
       float d_fs;
       uint d_idxBit = 0;
       uint d_BPS = 0;
       int d_startMsgSamp;
-      uint8_t d_currState = 0;
+      uint8_t d_currState;
       const uint numFSCBits = 32;
       const uint8_t FSCBits[32] = {0,1,1,1,1,1,0,0,
                                    1,1,0,1,0,0,1,0,

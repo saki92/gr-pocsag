@@ -50,6 +50,7 @@ namespace gr {
       arr_bits = (int8_t *) volk_malloc(sizeof(int8_t)*bitbuff_size, volk_get_alignment());
       bit_check = fs*0.5/max_bps;
       d_fs = fs;
+      d_currState = 0;
       printf("Detecting Preamble\n");
     }
 
@@ -120,12 +121,9 @@ namespace gr {
       {
         for(int i = 0; i < noutput_items; i++)
         {
-          if(abs(in[i] - in[i-1]) < d_thresh)
-          {
-            tot_sampcount++;
+          if(sgn(in[i]) == sgn(in[i-1]))
             sampcount++;
-          }
-          else if((sampcount > bit_check) && (sgn(in[i]) != sgn(in[i-1])))
+          else if(sampcount > bit_check)
           {
             arr_bits[idxBit++] = sgn(sgn(in[i-1])+1);
             if(idxBit > (numBitsPreamble-1))
@@ -170,7 +168,7 @@ namespace gr {
               printf("Writing Batches\n");
               return i+numSampPerBit;
             }
-            if(idxBit > (23000-1))
+            if(idxBit > (2300-1))
             {
               idxBit = 0;
               d_currState = 0; // If FSC not detected, estimate BPS again
